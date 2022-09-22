@@ -5,7 +5,7 @@ import RPi.GPIO as GPIO
 import smtplib
 from time import sleep
 import time
-# Importowanie modułów do wysyłania poczty
+# Importowanie modułów do wysyłania poczty   aaa
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import  MIMEText
 from email.mime.base import MIMEBase
