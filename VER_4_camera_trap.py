@@ -40,9 +40,8 @@ def email():
     nazwa_pliku = os.path.join(DIR, FILE_PREFIX + '%03d.jpg' % count)
     today=datetime.today()
     konvert_date=today.strftime("%c")
-    # złap twarz
-    json_date={"date":[konvert_date],"nazwa_pliku":[nazwa_pliku]} 
-    #json_date={"date":konvert_date,"nazwa_pliku":nazwa_pliku}
+    # złap twarzy
+
     data=json.dumps(json_date,indent=2, sort_keys=True,default=str)
     with picamera.PiCamera() as camera:
         pic = camera.capture(nazwa_pliku)
@@ -69,16 +68,17 @@ def email():
     # wysylanie emaila
     
     #print( 'wysylanie e-maila')
-    
+    with open("logi.json",encoding="utf-8") as f2:
+        data_loaded=json.load(f2,strict=False)
+        print(data_loaded)
+        data_loaded[konvert_date]=nazwa_pliku #dopisuje nowa w pozycje w slowniku
     with open("logi.json","w") as f:
-        data=json.dumps(json_date,indent=2, sort_keys=True,default=str)
+        data=json.dumps(data_loaded,indent=2, sort_keys=True,default=str)
         
         f.write(data)   
                   
     
-    with open("logi.json",encoding="utf-8") as f2:
-           data_loaded=json.load(f2,strict=False)
-    print(data_loaded)
+   
     #date_copy=json_date.copy()
     '''
     for konvert_date in json_date:
