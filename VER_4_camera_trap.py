@@ -12,11 +12,9 @@ from email.mime.base import MIMEBase
 from email import encoders
 from datetime import datetime
 import json
-
 #nadawca = 
 #haslo = 
 #odbiorca  = 
-
 DIR = './Camera_trap/'
 FILE_PREFIX = 'image'
             
@@ -43,13 +41,15 @@ def email():
     today=datetime.today()
     konvert_date=today.strftime("%c")
     # złap twarz
-    #json_date={"date":[konvert_date],"nazwa_pliku":[nazwa_pliku]} 
+    json_date={"date":[konvert_date],"nazwa_pliku":[nazwa_pliku]} 
     #json_date={"date":konvert_date,"nazwa_pliku":nazwa_pliku}
-     json_date={konvert_date:nazwa_pliku}
     data=json.dumps(json_date,indent=2, sort_keys=True,default=str)
     with picamera.PiCamera() as camera:
         pic = camera.capture(nazwa_pliku)
-    # wysylanie emaile  
+    # wysylanie emaila
+    
+    
+      
     '''    
     for konvert_date in json_date:
                         json_date.append(nazwa_pliku)
@@ -58,14 +58,40 @@ def email():
     for x,y in json_date.items():
         json_date.update()
     '''                  
-  
+   
+   
+    #json_date={"date":[konvert_date],"nazwa_pliku":[nazwa_pliku]} 
+    json_date={konvert_date:nazwa_pliku}
+    with picamera.PiCamera() as camera:
+        pic = camera.capture(nazwa_pliku) 
+    # złap twarz
+ 
+    # wysylanie emaila
+    
+    #print( 'wysylanie e-maila')
+    
     with open("logi.json","w") as f:
-        new_date=json.dumps(json_date,indent=2, sort_keys=True,default=str)
+        data=json.dumps(json_date,indent=2, sort_keys=True,default=str)
         
-     
+        f.write(data)   
+                  
+    
+    with open("logi.json",encoding="utf-8") as f2:
+           data_loaded=json.load(f2,strict=False)
+    print(data_loaded)
+    #date_copy=json_date.copy()
+    '''
+    for konvert_date in json_date:
+                        json_date.append(nazwa_pliku)
+                        json_date.append(konvert_date)
+                      
+
+     '''  
+  
+    '''   
     with open("logi2.json","w") as f2:
            json.dumps(new_date)
-    
+    '''
     '''
     with open("logi.json","w") as f:
         json.dump(json_date,f)
@@ -77,9 +103,9 @@ def email():
                for x,y in json_date.items():
                     json_date.update({"date":konvert_date,"photo":nazwa_pliku})
     
-    print(new_date)  
+    print(data_loaded)
     '''
-    '''
+    
     msg = MIMEMultipart()
     msg['From'] = nadawca
     msg['To'] = odbiorca
@@ -99,7 +125,7 @@ def email():
     text = msg.as_string()
     server.sendmail(nadawca, odbiorca, text)
     server.quit()
-    '''
+    
     
 
 while True:    
@@ -113,6 +139,8 @@ while True:
         #print("Today's date - Using date class:%s"%todaysDate);
       
         email()
-        
-
  
+
+
+
+
