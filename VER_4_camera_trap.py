@@ -43,15 +43,13 @@ def email():
     today=datetime.today()
     konvert_date=today.strftime("%c")
     # złap twarz
-    json_date={"date":[konvert_date],"nazwa_pliku":[nazwa_pliku]} 
+    #json_date={"date":[konvert_date],"nazwa_pliku":[nazwa_pliku]} 
     #json_date={"date":konvert_date,"nazwa_pliku":nazwa_pliku}
+     json_date={konvert_date:nazwa_pliku}
     data=json.dumps(json_date,indent=2, sort_keys=True,default=str)
     with picamera.PiCamera() as camera:
         pic = camera.capture(nazwa_pliku)
-    # wysylanie emaila
-    
-    
-      
+    # wysylanie emaile  
     '''    
     for konvert_date in json_date:
                         json_date.append(nazwa_pliku)
@@ -60,18 +58,14 @@ def email():
     for x,y in json_date.items():
         json_date.update()
     '''                  
-   
-   
-
-
-       
+  
     with open("logi.json","w") as f:
         new_date=json.dumps(json_date,indent=2, sort_keys=True,default=str)
         
-    '''   
+     
     with open("logi2.json","w") as f2:
            json.dumps(new_date)
-    '''
+    
     '''
     with open("logi.json","w") as f:
         json.dump(json_date,f)
